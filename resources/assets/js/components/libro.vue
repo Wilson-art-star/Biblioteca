@@ -15,7 +15,7 @@
                 <!-- Ejemplo de tabla Listado -->
                 <div class="card">
                     <div class="card-header">
-                        <i class="fa fa-file-text"></i> Categorías 
+                        <i class="fa fa-file-text"></i> Libros 
                         <button type="button" class="btn btn-success" data-toggle="modal" @click="abrirModal('guardar')">
                             <i class="icon-plus"></i>&nbsp;Nuevo
                         </button>
@@ -35,14 +35,31 @@
                         <table class="table table-bordered table-striped table-sm">
                             <thead>
                                 <tr>
-
                                     <th>Nombre</th>
+                                    <th>Cantidad</th>
+                                    <th>Año publicado</th>
+                                    <th>Número de Paginas</th>
+                                    <th>Ubicación</th>
+                                    <th>Edicion</th>
+                                    <th>Categoria</th>
+                                    <th>Idioma</th>
+                                    <th>Autor</th>
+                                    <th>Editorial</th>
                                     <th>Opciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="objeto in arrayDatos" :key="objeto.id">
                                     <td v-text="objeto.nombre"></td>
+                                    <td v-text="objeto.cantidad"></td>
+                                    <td v-text="objeto.ano_publicado"></td>
+                                    <td v-text="objeto.num_paginas"></td>
+                                    <td v-text="objeto.ubicacion"></td>
+                                    <td v-text="objeto.edicion"></td>
+                                    <td v-text="objeto.id_categoria"></td>
+                                    <td v-text="objeto.id_idioma"></td>
+                                    <td v-text="objeto.id_autor"></td>
+                                    <td v-text="objeto.id_editorial"></td>
                                     <td>
                                         <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" @click="abrirModal('editar',objeto)">
                                           <i class="icon-pencil"></i>
@@ -103,13 +120,73 @@
                         </div>
                         <div class="modal-body">
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
-                                <div class="form-group row" :class="validarDatos('nombre')">
-                                    <label class="col-md-3 form-control-label" for="text-input">Nombre</label>
-                                    <div class="col-md-9">
-                                        <input type="text" v-model="form.nombre" id="nombre" name="nombre" class="form-control" placeholder="Nombre de Categoría">
-                                        <div class="error" v-if="!$v.form.nombre.requerid">olvidaste ingresar el nombre</div>
-                                        <span class="error" v-if="!$v.form.nombre.requerid"> Error</span>
-                                      <!--/  <span class="help-block">(*) Ingrese el nombre de la categoría</span> -->
+                                <div class="form-group row">
+                                    <label class="col-md-2 form-control-label" for="text-input">Nombre</label>
+                                    <div class="col-md-10">
+                                        <input type="text" v-model="nombre" id="nombre" name="nombre" class="form-control" placeholder="Nombre del Libro">
+                                        <span class="help-block">(*) Ingrese el Nombre</span>
+                                    </div>
+
+                                    <label class="col-md-2 form-control-label" for="text-input">Cantidad</label>
+                                    <div class="col-md-4">
+                                        <input type="text" v-model="nombre" id="nombre" name="nombre" class="form-control" placeholder="Cantidad disponible">
+                                        <span class="help-block">(*) Ingrese la Cantidad</span>
+                                    </div>
+
+                                    <label class="col-md-2 form-control-label" for="text-input">Año publicado</label>
+                                    <div class="col-md-4">
+                                        <input type="text" v-model="nombre" id="nombre" name="nombre" class="form-control" placeholder="Año publicación">
+                                        <span class="help-block">(*) Ingrese la fecha de publicación</span>
+                                    </div>
+
+                                    <label class="col-md-2 form-control-label" for="text-input">Numero de paginas</label>
+                                    <div class="col-md-4">
+                                        <input type="text" v-model="nombre" id="nombre" name="nombre" class="form-control" placeholder="Numero de paginas">
+                                        <span class="help-block">(*) Ingrese el Numero de paginas</span>
+                                    </div>
+
+                                    <label class="col-md-2 form-control-label" for="text-input">Ubicacion</label>
+                                    <div class="col-md-4">
+                                        <input type="text" v-model="nombre" id="nombre" name="nombre" class="form-control" placeholder="Ubicación">
+                                        <span class="help-block">(*) Ingrese la ubicación</span>
+                                    </div>
+
+                                    <label class="col-md-2 form-control-label" for="text-input">Edicion</label>
+                                    <div class="col-md-4">
+                                        <input type="text" v-model="nombre" id="nombre" name="nombre" class="form-control" placeholder="Edición">
+                                        <span class="help-block">(*) Ingrese la edición</span>
+                                    </div>
+
+                                    <label class="col-md-2 form-control-label" for="text-imput">Seleccione Categoria</label>
+                                    <div class="col-md-4">
+
+                                    <select class="form-control" v-model="idCat">
+                                    <option v-for="objeto in arrayCat" :value="objeto.id" :key="objeto.id" v-text="objeto.nombre"></option>
+                                    </select>
+                                    </div>
+
+                                     <label class="col-md-2 form-control-label" for="text-imput">Seleccione Editorial</label>
+                                    <div class="col-md-4">
+
+                                    <select class="form-control" v-model="idEdi">
+                                    <option v-for="objeto in arrayEdi" :value="objeto.id" :key="objeto.id" v-text="objeto.nombre"></option>
+                                    </select>
+                                    </div>
+
+                                    <label class="col-md-2 form-control-label" for="text-imput">Seleccione Idioma</label>
+                                    <div class="col-md-4">
+
+                                    <select class="form-control" v-model="idIdm">
+                                    <option v-for="objeto in arrayIdm" :value="objeto.id" :key="objeto.id" v-text="objeto.nombre"></option>
+                                    </select>
+                                    </div>
+
+                                     <label class="col-md-2 form-control-label" for="text-imput">Seleccione Autor</label>
+                                    <div class="col-md-4">
+
+                                    <select class="form-control" v-model="idAut">
+                                    <option v-for="objeto in arrayAut" :value="objeto.id" :key="objeto.id" v-text="objeto.nombre"></option>
+                                    </select>
                                     </div>
                                 
                                 </div>
@@ -117,7 +194,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" @click="cerrarModal" data-dismiss="modal">Cerrar</button>
-                            <button v-show="accion==0" type="button" @click="validar" class="btn btn-primary">Guardar</button>
+                            <button v-show="accion==0" type="button" @click="regCat" class="btn btn-primary">Guardar</button>
                             <button v-show="accion" type="button" @click="actCat" class="btn btn-primary">Actualizar</button>
                         </div>
                     </div>
@@ -153,27 +230,24 @@
 </template>
 
 <script>
-    import { required, minLength, between  } from 'vuelidate/lib/validators'
-    import { validationMixin } from 'vuilidate'
-    import Multiselect from 'vue-multiselect'
-    Vue.component('multiselect', Multiselect);
     export default {
-        mixins:[validationMixin],
-        components:{ Multiselect },
+
         data(){
             return{
                  arrayDatos:[],
-                 arrayCat:[],
-                 arrayCat2:{id:0, nombre:''},
-                 form:{
-                     nombre:'',
-                 },
+                 arrayCat: [],
+                 arrayEdi: [],
+                 arrayIdm: [],
+                 arrayAut: [],
                  nombre:'',
                  idCat:0,
                  modal:0,
                  titulo:'',
                  accion:0,
                  idCat:0,
+                 idEdi:0,
+                 idIdm:0,
+                 idAut:0,
 
                  //variables pagination
                  pagination:{
@@ -188,21 +262,10 @@
                  buscar:'',
                  criterio:'nombre'
             } 
-        },
-        validations:{
-            form:{
-                nombre:{
-                    required
-                }
-            }
-        },
            
+        },
 
         methods:{
-
-            nameWithLang ({ id, nombre }) {
-            return `${name} — [${language}]`
-            },
             cambiarPagina(page,buscar,criterio){
                 let me = this;
                 //va a la pagina actual
@@ -210,34 +273,74 @@
                 //envia el metodo para traer los datos
                 me.listCat(page,criterio,buscar);
             },
-            validarDatos(modelo){
-                const campo = this.$v.form[modelo];
-                if(campo) {
-                    return{
-                        "error":campo.$invalid && campo.$dirty
-                    };
-                }
-            },
 
-            validar(){
-                this.$v.$touch();
-                if (this.$v.$invalid) {
-                    this.regCat();
-                }
-            },
             listCat(page,criterio,buscar){
                 let me = this;
-                var url="/categorias?page="+ page + '&criterio='+ criterio+'&buscar=' + buscar;
+                var url="/libros?page="+ page + '&criterio='+ criterio+'&buscar=' + buscar;
                 axios.get(url)
                 .then(function(response){
                     var respuesta = response.data;
-                    me.arrayDatos = respuesta.categorias.data,
+                    me.arrayDatos = respuesta.libros.data,
                     me.pagination=respuesta.pagination;
                 })
                 .catch(function(error){
                     console.log(error);
                 });
             },
+
+            getCat(){
+                let me = this;
+                var url="/getCat";
+                axios.get(url)
+                .then(function(response){
+                    var respuesta = response.data;
+                    me.arrayCat= respuesta.cat;
+                })
+                 .catch(function(error){
+                    console.log(error);
+                });
+            },
+
+             getEdi(){
+                let me = this;
+                var url="/getEdi";
+                axios.get(url)
+                .then(function(response){
+                    var respuesta = response.data;
+                    me.arrayEdi= respuesta.edi;
+                })
+                 .catch(function(error){
+                    console.log(error);
+                });
+            },
+
+            getIdm(){
+                let me = this;
+                var url="/getIdm";
+                axios.get(url)
+                .then(function(response){
+                    var respuesta = response.data;
+                    me.arrayIdm= respuesta.idm;
+                })
+                 .catch(function(error){
+                    console.log(error);
+                });
+            },
+
+            getAut(){
+                let me = this;
+                var url="/getAut";
+                axios.get(url)
+                .then(function(response){
+                    var respuesta = response.data;
+                    me.arrayAut= respuesta.aut;
+                })
+                 .catch(function(error){
+                    console.log(error);
+                });
+            },
+
+
             regCat(){
                 let me = this;
                 var url = "/categorias/registrar";
@@ -347,6 +450,10 @@
         mounted() {
             console.log('Component mounted.')
             this.listCat(1,this.criterio,this.buscar);
+            this.getCat();
+            this.getEdi();
+            this.getIdm();
+            this.getAut();
             
         }
     }
@@ -364,9 +471,6 @@
     opacity: 1 !important;
     position: absolute !important;
     background-color: #bbb4b47a;
-}
-.error{
-    color: red !important;
 }
 
 </style>

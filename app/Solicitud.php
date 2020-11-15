@@ -4,8 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Autores extends Model
+class Solicitud extends Model
 {
     //
-    protected $fillable=['id','nombre'];
 }

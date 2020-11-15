@@ -8,10 +8,29 @@ use App\Idiomas;
 class IdiomaController extends Controller
 {
     
-    public function index()
+    public function index(Request $request)
     {
-        $idiomas = Idiomas::orderBy('nombre','asc')->get();
+        $buscar=$request->nombre;
+        $criterio=$request->criterio;
+
+        if ($buscar=='') {
+            $idiomas = Idiomas::orderBy('nombre','asc')->paginate(4);
+        }else{
+            $idiomas = Idiomas::where($criterio,'like', '%'.$buscar.'%')-orderBy('nombre','asc')->paginate(4);
+        }
+
+
         return [
+            'pagination'=>[
+                'total'=>$idiomas->total(),
+                'current_page'=>$idiomas->currentPage(),
+                'per_page'=>$idiomas->perPage(),
+                'last_page'=>$idiomas->lastPage(),
+                'from'=>$idiomas->firstItem(),
+                'to'=>$idiomas->lastItem(),
+            ],
+
+
             'idiomas'=>$idiomas
         ];
     }
@@ -25,16 +44,24 @@ class IdiomaController extends Controller
     }
 
   
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         $idiomas = Idiomas::findOrFail($request->id);
         $idiomas->nombre = $request->nombre;
         $idiomas->save();
     }
 
-    public function destroy($id)
+    public function destroy(Request $request)
     {
         $idiomas = Idiomas::findOrFail($request->id);
         $idiomas->delete();
+    }
+
+    public function getIdm(Request $request){
+        $idiomas = Idiomas::orderBy('nombre','asc')->get();
+
+        return[
+            'idm'=>$idiomas
+        ];
     }
 }

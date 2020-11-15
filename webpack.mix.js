@@ -17,11 +17,11 @@ mix.styles([
    'resources/assets/Plantilla/css/style.css'
 ],'public/css/plantilla.css')
 .scripts([
+   'resources/assets/Plantilla/js/jquery.min.js',
+   'resources/assets/Plantilla/js/popper.min.js',
    'resources/assets/Plantilla/js/bootstrap.min.js',
    'resources/assets/Plantilla/js/Chart.min.js',
-   'resources/assets/Plantilla/js/jquery.min.js',
    'resources/assets/Plantilla/js/pace.min.js',
-   'resources/assets/Plantilla/js/popper.min.js',
-   'resources/assets/Plantilla/js/template.js'
+   'resources/assets/Plantilla/js/template.js',
 ],'public/js/plantilla.js')
 .js(['resources/assets/js/app.js'],'public/js/app.js');

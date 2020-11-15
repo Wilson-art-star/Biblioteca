@@ -8,10 +8,30 @@ use App\Categorias;
 class CateoriaController extends Controller
 {
    //mostrar datos de la tabla
-    public function index()
+    public function index(Request $request)
     {
-        $categorias= Categorias::orderBy('nombre','asc')->get();
+        $buscar=$request->buscar;
+        $criterio=$request->criterio;
+
+        if ($buscar=='') {
+            $categorias= Categorias::orderBy('nombre','asc')->paginate(4);
+        }else{
+            $categorias= Categorias::where($criterio,'like', '%'.$buscar.'%')-orderBy('nombre','asc')->paginate(4);
+        }
+
+        
         return [
+
+            'pagination'=>[
+                'total'=> $categorias->total(),
+                'current_page'=>$categorias->currentPage(),
+                'per_page'=>$categorias->perPage(),
+                'last_page'=>$categorias->lastPage(),
+                'from'=>$categorias->firstItem(),
+                'to'=>$categorias->lastItem(),
+            ],
+                
+            
             'categorias'=>$categorias
         ];
     }
@@ -27,16 +47,24 @@ class CateoriaController extends Controller
     }
 
     //actualizar datos
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         $categorias = Categorias::findOrFail($request->id);
         $categorias->nombre = $request->nombre;
         $categorias->save();
     }
     //eliminar datos
-    public function destroy($id)
+    public function destroy(Request $request)
     {
         $categorias = Categorias::findOrFail($request->id);
         $categorias->delete();
+    }
+
+    public function getCat(Request $request){
+        $categorias= Categorias::orderBy('nombre','asc')->get();
+
+        return[
+            'cat'=>$categorias
+        ];
     }
 }

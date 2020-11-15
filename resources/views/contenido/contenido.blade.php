@@ -31,6 +31,18 @@
         
 </template>
 
+<template v-if="menu==6">
+
+<libro></libro>
+        
+</template>
+
+<template v-if="menu==7">
+
+<solicitud></solicitud>
+        
+</template>
+
 
 
 @endsection

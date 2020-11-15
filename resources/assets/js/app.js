@@ -9,6 +9,9 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+import Vuelidate from 'vuelidate'
+Vue.use(Vuelidate)
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -21,6 +24,8 @@ Vue.component('editorial', require('./components/editorial.vue'));
 Vue.component('idioma', require('./components/idioma.vue'));
 Vue.component('pais', require('./components/pais.vue'));
 Vue.component('autor', require('./components/autor.vue'));
+Vue.component('libro', require('./components/libro.vue'));
+Vue.component('solicitud', require('./components/solicitud.vue'));
 
 const app = new Vue({
     el: '#app',

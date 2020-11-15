@@ -8,10 +8,28 @@ use App\Autores;
 class AutorController extends Controller
 {
     
-    public function index()
+    public function index(Request $request)
     {
-        $autores = Autores::orderBy('nombre','asc')->get();
+        $buscar=$request->nombre;
+        $criterio=$request->criterio;
+
+        if ($buscar=='') {
+            $autores = Autores::orderBy('nombre','asc')->paginate(4);
+        }else{
+            $autores = Autores::where($criterio,'like', '%'.$buscar .'%')-orderBy('nombre','asc')->paginate(4);
+        }
+
+        
         return [
+
+            'pagination'=>[
+                'total'=> $autores->total(),
+                'current_page'=>$autores->currentPage(),
+                'per_page'=>$autores->perPage(),
+                'last_page'=>$autores->lastPage(),
+                'from'=>$autores->firstItem(),
+                'to'=>$autores->lastItem(),
+            ],
             'autores'=>$autores
         ];
     }
@@ -24,16 +42,24 @@ class AutorController extends Controller
     }
 
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         $autores = Autores::findOrFail($request->id);
         $autores->nombre =$request->nombre;
         $autores->save();
     }
 
-    public function destroy($id)
+    public function destroy(Request $request)
     {
         $autores = Autores::findOrFail($request->id);
         $autores->delete();
+    }
+
+    public function getAut(Request $request){
+        $autores = Autores::orderBy('nombre','asc')->get();
+
+        return[
+            'aut'=>$autores
+        ];
     }
 }

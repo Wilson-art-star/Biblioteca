@@ -30,11 +30,11 @@
                     <li class="nav-item nav-dropdown">
                         <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-wallet"></i> Registros</a>
                         <ul class="nav-dropdown-items">
-                            <li class="nav-item">
-                                <a class="nav-link" href="i#"><i class="icon-wallet"></i> Libros</a>
+                            <li @click="menu=6" class="nav-item">
+                                <a class="nav-link" href="#"><i class="icon-bag"></i> Libros</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#"><i class="icon-notebook"></i> Otros</a>
+                            <li @click="menu=7" class="nav-item">
+                                <a class="nav-link" href="#"><i class="icon-bag"></i> Solicitud Libro</a>
                             </li>
                         </ul>
                     </li>
