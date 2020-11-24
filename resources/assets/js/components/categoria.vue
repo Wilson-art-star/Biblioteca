@@ -27,7 +27,7 @@
                                     <select class="form-control col-md-3" id="opcion" name="opcion">
                                       <option value="nombre">Nombre</option>
                                     </select>
-                                    <input type="text" id="texto" name="texto" v-model="buscar" class="form-control" placeholder="Texto a buscar">
+                                    <input type="text" id="texto" name="texto" v-model="buscar" class="form-control" placeholder="Texto a buscar" @keypress="listCat(1, criterio,buscar)">
                                     <button type="submit" @click="listCat(1,criterio,buscar)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
                                 </div>
                             </div>
@@ -103,13 +103,11 @@
                         </div>
                         <div class="modal-body">
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
-                                <div class="form-group row" :class="validarDatos('nombre')">
+                                <div class="form-group row">
                                     <label class="col-md-3 form-control-label" for="text-input">Nombre</label>
                                     <div class="col-md-9">
-                                        <input type="text" v-model="form.nombre" id="nombre" name="nombre" class="form-control" placeholder="Nombre de Categoría">
-                                        <div class="error" v-if="!$v.form.nombre.requerid">olvidaste ingresar el nombre</div>
-                                        <span class="error" v-if="!$v.form.nombre.requerid"> Error</span>
-                                      <!--/  <span class="help-block">(*) Ingrese el nombre de la categoría</span> -->
+                                        <input type="text" v-model="nombre" id="nombre" name="nombre" class="form-control" placeholder="Nombre de la Editorial">
+                                        <span class="help-block">(*) Ingrese el nombre de la categoria</span>
                                     </div>
                                 
                                 </div>
@@ -117,7 +115,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" @click="cerrarModal" data-dismiss="modal">Cerrar</button>
-                            <button v-show="accion==0" type="button" @click="validar" class="btn btn-primary">Guardar</button>
+                            <button v-show="accion==0" type="button" @click="regCat" class="btn btn-primary">Guardar</button>
                             <button v-show="accion" type="button" @click="actCat" class="btn btn-primary">Actualizar</button>
                         </div>
                     </div>
@@ -153,21 +151,21 @@
 </template>
 
 <script>
-    import { required, minLength, between  } from 'vuelidate/lib/validators'
-    import { validationMixin } from 'vuilidate'
-    import Multiselect from 'vue-multiselect'
-    Vue.component('multiselect', Multiselect);
+    //import { required, minLength, between  } from 'vuelidate/lib/validators'
+    //import { validationMixin } from 'vuilidate'
+    //import Multiselect from 'vue-multiselect'
+    //Vue.component('multiselect', Multiselect);
     export default {
-        mixins:[validationMixin],
-        components:{ Multiselect },
+        //mixins:[validationMixin],
+        //components:{ Multiselect },
         data(){
             return{
                  arrayDatos:[],
                  arrayCat:[],
-                 arrayCat2:{id:0, nombre:''},
-                 form:{
-                     nombre:'',
-                 },
+                 //arrayCat2:{id:0, nombre:''},
+                 //form:{
+                 //    nombre:'',
+                 //},
                  nombre:'',
                  idCat:0,
                  modal:0,
@@ -186,23 +184,14 @@
                  },
                  offset:3,
                  buscar:'',
-                 criterio:'nombre'
+                 criterio:'nombre',
             } 
-        },
-        validations:{
-            form:{
-                nombre:{
-                    required
-                }
-            }
         },
            
 
         methods:{
 
-            nameWithLang ({ id, nombre }) {
-            return `${name} — [${language}]`
-            },
+            
             cambiarPagina(page,buscar,criterio){
                 let me = this;
                 //va a la pagina actual
@@ -210,21 +199,7 @@
                 //envia el metodo para traer los datos
                 me.listCat(page,criterio,buscar);
             },
-            validarDatos(modelo){
-                const campo = this.$v.form[modelo];
-                if(campo) {
-                    return{
-                        "error":campo.$invalid && campo.$dirty
-                    };
-                }
-            },
-
-            validar(){
-                this.$v.$touch();
-                if (this.$v.$invalid) {
-                    this.regCat();
-                }
-            },
+        
             listCat(page,criterio,buscar){
                 let me = this;
                 var url="/categorias?page="+ page + '&criterio='+ criterio+'&buscar=' + buscar;
@@ -364,9 +339,6 @@
     opacity: 1 !important;
     position: absolute !important;
     background-color: #bbb4b47a;
-}
-.error{
-    color: red !important;
 }
 
 </style>

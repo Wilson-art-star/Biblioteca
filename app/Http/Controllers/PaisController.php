@@ -10,13 +10,13 @@ class PaisController extends Controller
    
     public function index(Request $request)
     {
-        $buscar=$request->nombre;
+        $buscar=$request->buscar;
         $criterio=$request->criterio;
 
         if ($buscar=='') {
             $paises = Paises::orderBy('nombre','asc')->paginate(10);
         }else{
-            $paises = Paises::where($criterio,'like', '%'.$buscar.'%')-orderBy('nombre','asc')->paginate(10);
+            $paises = Paises::where($criterio,'like', '%'.$buscar.'%')->orderBy('nombre','asc')->paginate(10);
         }
 
         

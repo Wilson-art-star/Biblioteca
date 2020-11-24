@@ -10,13 +10,13 @@ class EditorialsController extends Controller
    
     public function index(Request $request)
     {
-        $buscar=$request->nombre;
+        $buscar=$request->buscar;
         $criterio=$request->criterio;
 
         if ($buscar=='') {
             $editorials = Editorials::orderBy('nombre','asc')->paginate(4);
         }else{
-            $editorials = Editorials::where($criterio,'like', '%'.$buscar.'%')-orderBy('nombre','asc')->paginate(4);
+            $editorials = Editorials::where($criterio,'like', '%'.$buscar.'%')->orderBy('nombre','asc')->paginate(4);
         }
 
 

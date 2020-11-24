@@ -16,7 +16,7 @@ class CateoriaController extends Controller
         if ($buscar=='') {
             $categorias= Categorias::orderBy('nombre','asc')->paginate(4);
         }else{
-            $categorias= Categorias::where($criterio,'like', '%'.$buscar.'%')-orderBy('nombre','asc')->paginate(4);
+            $categorias= Categorias::where($criterio,'like', '%'.$buscar.'%')->orderBy('nombre','asc')->paginate(4);
         }
 
         

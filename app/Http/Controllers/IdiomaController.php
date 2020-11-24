@@ -10,13 +10,13 @@ class IdiomaController extends Controller
     
     public function index(Request $request)
     {
-        $buscar=$request->nombre;
+        $buscar=$request->buscar;
         $criterio=$request->criterio;
 
         if ($buscar=='') {
             $idiomas = Idiomas::orderBy('nombre','asc')->paginate(4);
         }else{
-            $idiomas = Idiomas::where($criterio,'like', '%'.$buscar.'%')-orderBy('nombre','asc')->paginate(4);
+            $idiomas = Idiomas::where($criterio,'like', '%'.$buscar.'%')->orderBy('nombre','asc')->paginate(4);
         }
 
 

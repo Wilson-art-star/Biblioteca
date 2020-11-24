@@ -12,12 +12,15 @@
     <link rel="shortcut icon" href="#">
     <title>Sistema Libros</title>
     <!-- Icons -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
     <link href="css/plantilla.css" rel="stylesheet">
 </head>
 
 <body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
 <div id="app">
     <header class="app-header navbar">
+
         <button class="navbar-toggler mobile-sidebar-toggler d-lg-none mr-auto" type="button">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -53,35 +56,53 @@
                     </a>
                 </div>
             </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                    <img src="vendors/img/avatars/6.jpg" class="img-avatar" alt="admin@bootstrapmaster.com">
-                    <span class="d-md-down-none">admin </span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <div class="dropdown-header text-center">
-                        <strong>Cuenta</strong>
-                    </div>
-                    <a class="dropdown-item" href="#"><i class="fa fa-user"></i> Perfil</a>
-                    <a class="dropdown-item" href="#"><i class="fa fa-lock"></i> Cerrar sesión</a>
-                </div>
-            </li>
         </ul>
+       <ul class="nav navbar-nav ml-auto">
+       <li class="nav-item dropdown">
+       <a class="nav-link dropdown-toggle nav-link" data-toggle="dropdown" role="button" href="#" aria-haspopup="true" aria-expanded="false">
+       <img src="img/avatars/9.jpg" class="img-avatar" alt="">
+       <span>{{Auth::user()->name}}</span>
+       </a>
+       
+       <div class="dropdown-menu dropdown-menu-right">
+          <div class="dropdown-header">
+          <strong>Cuenta</strong>
+          
+          <div>
+          <a class="dropdown-item" href="#"><i class="fa fa-user"></i> Perfil</a>
+          <a class="dropdown-item" href="#"><i class="fa fa-lock"></i> Cerrar Sesión</a>
+          
+          </div>
+          
+          </div>
+       
+       </div>
+    </li>
+    </ul>
+        
     </header>
     
+   
+
 
     <div class="app-body">
+
+       @if (Auth::check())
+       @include('plantilla.sidebar')
+
+       @endif
     
+     <!-- Contenido Principal -->
 
-        @include("plantilla.sidebar")
+        
 
-        <!-- Contenido Principal -->
+       
         @yield("contenido")
         
         
         
         
-        <!-- /Fin del contenido principal -->
+    <!-- /Fin del contenido principal -->
     </div>
     </div>
 

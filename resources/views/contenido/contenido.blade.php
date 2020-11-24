@@ -1,6 +1,8 @@
 @extends("principal")
 @section("contenido")
 
+@if(Auth::check())
+
 <template v-if="menu==1">
 
 <autor></autor>
@@ -42,6 +44,16 @@
 <solicitud></solicitud>
         
 </template>
+
+<template v-if="menu==8">
+
+<user></user>
+        
+</template>
+   
+@endif
+
+
 
 
 

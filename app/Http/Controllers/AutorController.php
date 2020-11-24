@@ -10,13 +10,13 @@ class AutorController extends Controller
     
     public function index(Request $request)
     {
-        $buscar=$request->nombre;
+        $buscar=$request->buscar;
         $criterio=$request->criterio;
 
         if ($buscar=='') {
             $autores = Autores::orderBy('nombre','asc')->paginate(4);
         }else{
-            $autores = Autores::where($criterio,'like', '%'.$buscar .'%')-orderBy('nombre','asc')->paginate(4);
+            $autores = Autores::where($criterio,'like', '%'.$buscar .'%')->orderBy('nombre','asc')->paginate(4);
         }
 
         

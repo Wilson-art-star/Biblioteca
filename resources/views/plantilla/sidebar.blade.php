@@ -36,6 +36,9 @@
                             <li @click="menu=7" class="nav-item">
                                 <a class="nav-link" href="#"><i class="icon-bag"></i> Solicitud Libro</a>
                             </li>
+                            <li @click="menu=8" class="nav-item">
+                                <a class="nav-link" href="#"><i class="icon-bag"></i> Users</a>
+                            </li>
                         </ul>
                     </li>
                     <li class="nav-item">

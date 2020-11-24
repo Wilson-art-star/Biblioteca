@@ -27,8 +27,8 @@
                                     <select class="form-control col-md-3" id="opcion" name="opcion">
                                       <option value="nombre">Nombre</option>
                                     </select>
-                                    <input type="text" id="texto" name="texto" class="form-control" placeholder="Texto a buscar">
-                                    <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+                                    <input type="text" id="texto" name="texto" v-model="buscar" class="form-control" placeholder="Texto a buscar" @keypress="listIdm(1, criterio,buscar)">
+                                    <button type="submit" @click="listIdm(1,criterio,buscar)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
                                 </div>
                             </div>
                         </div>

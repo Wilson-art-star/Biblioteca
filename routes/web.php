@@ -11,14 +11,21 @@
 |
 */
 
-Route::get('/', function () {
+
+////////////////////(RUTA PARA INGRESAR AL CONTENDO DESDE EL LOGIN)
+Route::get('/main', function () {
     return view('contenido/contenido');
-});
+})->name('main');
 
 Route::get('categoria', function () {
     return view('categoria');
 });
 
+
+////////////////////////////////////////////////(LOGIN)
+
+Route::get('/','Auth\LoginController@mostrarLogin');
+Route::post('/login','Auth\LoginController@login')->name('login');
 
 /////////////////////////////////////(CATEGORIAS)
 
@@ -94,3 +101,19 @@ Route::post('/solicitud/registrar','SolicitudController@store');
 
 Route::get('libros','LibrosController@index');
 Route::get('getlibros','LibrosController@getLibros');
+
+////////////////////////////////////////////////////////
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+/////////////////////////////////////(USERS)
+
+Route::get('user','UserController@index');
+
+Route::post('/user/registrar','UserController@store');
+
+Route::put('/user/actualizar','UserController@update');
+
+Route::post('/user/eliminar','UserController@destroy');

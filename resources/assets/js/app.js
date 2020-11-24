@@ -26,6 +26,8 @@ Vue.component('pais', require('./components/pais.vue'));
 Vue.component('autor', require('./components/autor.vue'));
 Vue.component('libro', require('./components/libro.vue'));
 Vue.component('solicitud', require('./components/solicitud.vue'));
+Vue.component('user', require('./components/user.vue'));
+
 
 const app = new Vue({
     el: '#app',

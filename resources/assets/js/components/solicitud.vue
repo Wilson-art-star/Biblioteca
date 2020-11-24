@@ -34,7 +34,7 @@
                         <div class="form-group form-inline">
 
                             <input v-model="buscar" class="form-control col-4" placeholder="Ingrese el código del libro" type="text" @keyup.enter="getLibro(buscar)">
-                            <button class="btn btn-primary" @click="abrirModal()"><i class="fa fa-search"></i></button>
+                            <button class="btn btn-primary" @click="getLibro(buscar)"><i class="fa fa-search"></i></button>
                             <h4 class="text-muted mx-sm-3" v-text="nomLibro"></h4>
                             <label class="mx-sm-3">Cantidad</label>
                             <input v-model="cant" type="number" class="form-control" placeholder="Cantidad Libros">
