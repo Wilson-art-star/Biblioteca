@@ -268,20 +268,24 @@ export default {
                 console.log(error);
             });
         },
+        //toma los datos que yo selecciono de la tabla modal cuando le doy al boton verde que dice "OK" y los agrega a la tabla de arrayDatos
         agregarItem:function(data=[]){
             this.arrayDatos.push({cod:data['id'],nombre:data['nombre'],cant: this.cant,autor:data['nomaut'],editorial:data['nomedit']})
             this.arrayLibros.splice(0,1);
             this.mensajeToast();
         },
 
+        ///Agrega los datos que estan en el formulario pprincipal
         agregarItem2:function(data=[]){
             this.arrayDatos.push({cod:this.codLibro,nombre:this.nomLibro,cant:this.cant,autor:this.autLibro,editorial:this.editLibro})
             this.arrayLibros.splice(0,1);
         },
 
+        //maestro detalle
+
         regSolicitud(){
             let me = this;
-            var url ="/solicitud/registrar";
+            var url="/solicitud/registrar";
             axios.post(url,{
                     fecE : this.fecEntrega,
                     idPerso:this.idPerso,

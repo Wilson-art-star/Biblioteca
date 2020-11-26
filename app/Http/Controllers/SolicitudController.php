@@ -43,7 +43,7 @@ class SolicitudController extends Controller
             DB::beginTransaction();
 
             $solicitud= new Solicitud();
-            $solicitud->fec_entrega = $request->fecE;
+            $solicitud->fecha_entrega = $request->fecE;
             $solicitud->id_persona = $request->idPerso;
             $solicitud->save();
 
@@ -52,7 +52,7 @@ class SolicitudController extends Controller
             foreach ($detalles as $key => $det) {
                $detalle= new DetalleSolicitud();
                $detalle->id_solicitud= $solicitud->id;
-               $detalle->id_libro= $det['codLibro'];
+               $detalle->id_libro= $det['cod'];
                $detalle->cant= $det['cant'];
                $detalle->save();
             }

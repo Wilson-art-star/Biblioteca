@@ -48,6 +48,8 @@ class LibrosController extends Controller
         ];
     }
 
+    
+
     public function getLibros(Request $request)
     {
         $buscar=$request->buscar;
@@ -65,4 +67,6 @@ class LibrosController extends Controller
             'libro'=>$libro
         ];
     }
+
+
 }

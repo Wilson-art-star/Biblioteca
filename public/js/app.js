@@ -57285,6 +57285,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_toasted___default.a);
             });
         },
 
+        //toma los datos que yo selecciono de la tabla modal cuando le doy al boton verde que dice "OK" y los agrega a la tabla de arrayDatos
         agregarItem: function agregarItem() {
             var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
@@ -57293,6 +57294,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_toasted___default.a);
             this.mensajeToast();
         },
 
+        ///Agrega los datos que estan en el formulario pprincipal
         agregarItem2: function agregarItem2() {
             var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
