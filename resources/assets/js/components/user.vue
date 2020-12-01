@@ -15,7 +15,7 @@
                 <!-- Ejemplo de tabla Listado -->
                 <div class="card">
                     <div class="card-header">
-                        <i class="fa fa-user"></i> Users 
+                        <i class="fa fa-user"></i> Usuarios 
                         <button type="button" class="btn btn-success" data-toggle="modal" @click="abrirModal('guardar')">
                             <i class="icon-plus"></i>&nbsp;Nuevo
                         </button>
@@ -28,7 +28,7 @@
                                       <option value="nombre">Nombre</option>
                                     </select>
                                     <input type="text" id="texto" name="texto" v-model="buscar" class="form-control" placeholder="Texto a buscar">
-                                    <button type="submit" @click="listCat(1,criterio,buscar)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+                                    <button type="submit" @click="listUse(1,criterio,buscar)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
                                 </div>
                             </div>
                         </div>
@@ -37,17 +37,19 @@
                                 <tr>
 
                                     <th>Nombre</th>
+                                    <th>E-mail</th>
                                     <th>Opciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="objeto in arrayDatos" :key="objeto.id">
                                     <td v-text="objeto.name"></td>
+                                    <td v-text="objeto.email"></td>
                                     <td>
                                         <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" @click="abrirModal('editar',objeto)">
                                           <i class="icon-pencil"></i>
                                         </button> &nbsp;
-                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" @click="eliminarCat(objeto)">
+                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" @click="eliminarUse(objeto)">
                                           <i class="icon-trash"></i>
                                         </button>
                                     </td>
@@ -109,14 +111,25 @@
                                         <input type="text" v-model="nombre" id="nombre" name="nombre" class="form-control" placeholder="Nombre del usuario">
                                         <span class="help-block">(*) Ingrese el nombre del Usuario</span>
                                     </div>
-                                
+
+                                    <label class="col-md-3 form-control-label" for="text-input">E-mail</label>
+                                    <div class="col-md-9">
+                                        <input type="text" v-model="nombre" id="nombre" name="nombre" class="form-control" placeholder="correo del usuario">
+                                        <span class="help-block">(*) Ingrese el E-mail del Usuario</span>
+                                    </div>
+
+                                    <label class="col-md-3 form-control-label" for="text-input">Password</label>
+                                    <div class="col-md-9">
+                                        <input type="text" v-model="nombre" id="nombre" name="nombre" class="form-control" placeholder="contraseña del usuario">
+                                        <span class="help-block">(*) Ingrese la contraseña del Usuario</span>
+                                    </div>
                                 </div>
                             </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" @click="cerrarModal" data-dismiss="modal">Cerrar</button>
-                            <button v-show="accion==0" type="button" @click="regCat" class="btn btn-primary">Guardar</button>
-                            <button v-show="accion" type="button" @click="actCat" class="btn btn-primary">Actualizar</button>
+                            <button v-show="accion==0" type="button" @click="regUse" class="btn btn-primary">Guardar</button>
+                            <button v-show="accion" type="button" @click="actUse" class="btn btn-primary">Actualizar</button>
                         </div>
                     </div>
                     <!-- /.modal-content -->
@@ -139,7 +152,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="button" @click="eliminarCat" class="btn btn-danger">Eliminar</button>
+                            <button type="button" @click="eliminarUse" class="btn btn-danger">Eliminar</button>
                         </div>
                     </div>
                     <!-- /.modal-content -->
@@ -197,10 +210,10 @@
                 //va a la pagina actual
                 me.pagination.current_page = page;
                 //envia el metodo para traer los datos
-                me.listCat(page,criterio,buscar);
+                me.listUse(page,criterio,buscar);
             },
         
-            listCat(page,criterio,buscar){
+            listUse(page,criterio,buscar){
                 let me = this;
                 var url="/user?page="+ page + '&criterio='+ criterio+'&buscar=' + buscar;
                 axios.get(url)
@@ -213,14 +226,14 @@
                     console.log(error);
                 });
             },
-            regCat(){
+            regUse(){
                 let me = this;
                 var url = "/user/registrar";
                 axios.post(url,{
                     nombre: this.nombre
                 })
                 .then(function(response){
-                    me.listCat();
+                    me.listUse();
                     alert('Se guardo correctamente');
                     me.cerrarModal();                
                 })
@@ -228,7 +241,7 @@
                     console.log(error);
                 });
             },
-            actCat(){
+            actUse(){
                 let me = this;
                 var url ="/user/actualizar";
                 axios.put(url,{
@@ -236,7 +249,7 @@
                     nombre : this.nombre
                 })
                 .then(function(response){
-                    me.listCat();
+                    me.listUse();
                     alert("Se actualizo correctamente");
                     me.cerrarModal();
                 })
@@ -244,14 +257,14 @@
                     console.log(error);
                 });
             },
-            eliminarCat(data=[]){
+            eliminarUse(data=[]){
                 let me = this;
                 var url = "/user/eliminar";
                 axios.post(url,{
                     id:data['id']
                 })
                 .then(function(response){
-                   me.listCat();
+                   me.listUUse();
                    alert('Se elimino correctamente');
                 })
                 .catch(function(error){
@@ -321,7 +334,7 @@
 
         mounted() {
             console.log('Component mounted.')
-            this.listCat(1,this.criterio,this.buscar);
+            this.listUse(1,this.criterio,this.buscar);
             
         }
     }

@@ -14,9 +14,14 @@ class AutorController extends Controller
         $criterio=$request->criterio;
 
         if ($buscar=='') {
-            $autores = Autores::orderBy('nombre','asc')->paginate(4);
+            $autores = Autores::join('paises','autores.id_pais','=','paises.id')
+            ->select('autores.id','autores.nombre','paises.nombre as nomPas')
+            ->orderBy('nombre','asc')->paginate(4);
         }else{
-            $autores = Autores::where($criterio,'like', '%'.$buscar .'%')->orderBy('nombre','asc')->paginate(4);
+            $autores = Autores::join('paises','autores.id_pais','=','paises.id')
+            ->select('autores.id','autores.nombre','paises.nombre as nomPas')
+            ->where($criterio,'like', '%'.$buscar .'%')
+            ->orderBy('nombre','asc')->paginate(4);
         }
 
         
@@ -38,6 +43,7 @@ class AutorController extends Controller
     {
         $autores = new Autores();
         $autores->nombre =$request->nombre;
+        $autores->id_pais = $request->idPas;
         $autores->save();
     }
 
@@ -46,6 +52,7 @@ class AutorController extends Controller
     {
         $autores = Autores::findOrFail($request->id);
         $autores->nombre =$request->nombre;
+        $autores->id_pais = $request->idPas;
         $autores->save();
     }
 

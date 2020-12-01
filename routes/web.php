@@ -100,7 +100,16 @@ Route::post('/solicitud/registrar','SolicitudController@store');
 /////////////////////////////////////////////////(LIBROS)
 
 Route::get('libros','LibrosController@index');
+
+Route::get('libros2','LibrosController@index2');
+
 Route::get('getlibros','LibrosController@getLibros');
+
+Route::post('/libros/registrar','LibrosController@store');
+
+Route::put('/libros/actualizar','LibrosController@update');
+
+Route::post('/libros/eliminar','LibrosController@destroy');
 
 ////////////////////////////////////////////////////////
 

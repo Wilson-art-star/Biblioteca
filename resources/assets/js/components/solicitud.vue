@@ -312,6 +312,9 @@ export default {
         mensajeToast(){
             let toast= this.$toasted.show('Libro Agregado',{
                 theme:"bubble",
+                position: "top-right",
+                duration: 3000,
+                type:succes
 
             });
         },

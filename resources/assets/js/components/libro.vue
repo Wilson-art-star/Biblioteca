@@ -28,7 +28,7 @@
                                       <option value="nombre">Nombre</option>
                                     </select>
                                     <input type="text" id="texto" name="texto" v-model="buscar" class="form-control" placeholder="Texto a buscar">
-                                    <button type="submit" @click="listCat(1,criterio,buscar)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
+                                    <button type="submit" @click="listLib(1,criterio,buscar)" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button>
                                 </div>
                             </div>
                         </div>
@@ -56,15 +56,15 @@
                                     <td v-text="objeto.num_paginas"></td>
                                     <td v-text="objeto.ubicacion"></td>
                                     <td v-text="objeto.edicion"></td>
-                                    <td v-text="objeto.id_categoria"></td>
-                                    <td v-text="objeto.id_idioma"></td>
-                                    <td v-text="objeto.id_autor"></td>
-                                    <td v-text="objeto.id_editorial"></td>
+                                    <td v-text="objeto.nomCat"></td>
+                                    <td v-text="objeto.nomIdi"></td>
+                                    <td v-text="objeto.nomAut"></td>
+                                    <td v-text="objeto.nomEdit"></td>
                                     <td>
                                         <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" @click="abrirModal('editar',objeto)">
                                           <i class="icon-pencil"></i>
                                         </button> &nbsp;
-                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" @click="eliminarCat(objeto)">
+                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" @click="eliminarLib(objeto)">
                                           <i class="icon-trash"></i>
                                         </button>
                                     </td>
@@ -121,6 +121,7 @@
                         <div class="modal-body">
                             <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
                                 <div class="form-group row">
+
                                     <label class="col-md-2 form-control-label" for="text-input">Nombre</label>
                                     <div class="col-md-10">
                                         <input type="text" v-model="nombre" id="nombre" name="nombre" class="form-control" placeholder="Nombre del Libro">
@@ -129,31 +130,31 @@
 
                                     <label class="col-md-2 form-control-label" for="text-input">Cantidad</label>
                                     <div class="col-md-4">
-                                        <input type="text" v-model="nombre" id="nombre" name="nombre" class="form-control" placeholder="Cantidad disponible">
+                                        <input type="text" v-model="cantidad" id="cantidad" name="cantidad" class="form-control" placeholder="Cantidad disponible">
                                         <span class="help-block">(*) Ingrese la Cantidad</span>
                                     </div>
 
                                     <label class="col-md-2 form-control-label" for="text-input">Año publicado</label>
                                     <div class="col-md-4">
-                                        <input type="text" v-model="nombre" id="nombre" name="nombre" class="form-control" placeholder="Año publicación">
+                                        <input type="text" v-model="ano_publicado" id="ano_publicado" name="ano_publicado" class="form-control" placeholder="Año publicación">
                                         <span class="help-block">(*) Ingrese la fecha de publicación</span>
                                     </div>
 
                                     <label class="col-md-2 form-control-label" for="text-input">Numero de paginas</label>
                                     <div class="col-md-4">
-                                        <input type="text" v-model="nombre" id="nombre" name="nombre" class="form-control" placeholder="Numero de paginas">
+                                        <input type="text" v-model="num_paginas" id="num_paginas" name="num_paginas" class="form-control" placeholder="Numero de paginas">
                                         <span class="help-block">(*) Ingrese el Numero de paginas</span>
                                     </div>
 
                                     <label class="col-md-2 form-control-label" for="text-input">Ubicacion</label>
                                     <div class="col-md-4">
-                                        <input type="text" v-model="nombre" id="nombre" name="nombre" class="form-control" placeholder="Ubicación">
+                                        <input type="text" v-model="ubicacion" id="ubicacion" name="ubicacion" class="form-control" placeholder="Ubicación">
                                         <span class="help-block">(*) Ingrese la ubicación</span>
                                     </div>
 
                                     <label class="col-md-2 form-control-label" for="text-input">Edicion</label>
                                     <div class="col-md-4">
-                                        <input type="text" v-model="nombre" id="nombre" name="nombre" class="form-control" placeholder="Edición">
+                                        <input type="text" v-model="edicion" id="edicion" name="edicion" class="form-control" placeholder="Edición">
                                         <span class="help-block">(*) Ingrese la edición</span>
                                     </div>
 
@@ -194,8 +195,8 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" @click="cerrarModal" data-dismiss="modal">Cerrar</button>
-                            <button v-show="accion==0" type="button" @click="regCat" class="btn btn-primary">Guardar</button>
-                            <button v-show="accion" type="button" @click="actCat" class="btn btn-primary">Actualizar</button>
+                            <button v-show="accion==0" type="button" @click="regLib" class="btn btn-primary">Guardar</button>
+                            <button v-show="accion" type="button" @click="actLib" class="btn btn-primary">Actualizar</button>
                         </div>
                     </div>
                     <!-- /.modal-content -->
@@ -208,17 +209,17 @@
                 <div class="modal-dialog modal-danger" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">Eliminar Categoría</h4>
+                            <h4 class="modal-title">Eliminar Libro</h4>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                               <span aria-hidden="true">×</span>
                             </button>
                         </div>
                         <div class="modal-body">
-                            <p>Estas seguro de eliminar la categoría?</p>
+                            <p>Estas seguro de eliminar el libro?</p>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="button" @click="eliminarCat" class="btn btn-danger">Eliminar</button>
+                            <button type="button" @click="eliminarLib" class="btn btn-danger">Eliminar</button>
                         </div>
                     </div>
                     <!-- /.modal-content -->
@@ -235,19 +236,25 @@
         data(){
             return{
                  arrayDatos:[],
+                 //arrayLib:[],
                  arrayCat: [],
                  arrayEdi: [],
                  arrayIdm: [],
                  arrayAut: [],
                  nombre:'',
-                 idCat:0,
-                 modal:0,
-                 titulo:'',
-                 accion:0,
+                 cantidad:'',
+                 ano_publicado:'',
+                 num_paginas:'',
+                 ubicacion:'',
+                 edicion:'',
+                 idLib:0,
                  idCat:0,
                  idEdi:0,
                  idIdm:0,
                  idAut:0,
+                 modal:0,
+                 titulo:'',
+                 accion:0,
 
                  //variables pagination
                  pagination:{
@@ -271,16 +278,16 @@
                 //va a la pagina actual
                 me.pagination.current_page = page;
                 //envia el metodo para traer los datos
-                me.listCat(page,criterio,buscar);
+                me.listLib(page,criterio,buscar);
             },
 
-            listCat(page,criterio,buscar){
+            listLib(page,criterio,buscar){
                 let me = this;
-                var url="/libros?page="+ page + '&criterio='+ criterio+'&buscar=' + buscar;
+                var url="/libros2?page="+ page + '&criterio='+ criterio+'&buscar=' + buscar;
                 axios.get(url)
                 .then(function(response){
                     var respuesta = response.data;
-                    me.arrayDatos = respuesta.libros.data,
+                    me.arrayDatos = respuesta.libro.data,
                     me.pagination=respuesta.pagination;
                 })
                 .catch(function(error){
@@ -288,6 +295,9 @@
                 });
             },
 
+
+
+            /////////Comienzo de los ComboBox
             getCat(){
                 let me = this;
                 var url="/getCat";
@@ -340,15 +350,26 @@
                 });
             },
 
+            /////////Fin de los ComboBox
 
-            regCat(){
+
+            regLib(){
                 let me = this;
-                var url = "/categorias/registrar";
+                var url = "/libros/registrar";
                 axios.post(url,{
-                    nombre: this.nombre
+                    nombre: this.nombre,
+                    cantidad:this.cantidad,
+                    ano_publicado:this.ano_publicado,
+                    num_paginas:this.num_paginas,
+                    ubicacion:this.ubicacion,
+                    edicion:this.edicion,
+                    idEdi:this.idEdi,
+                    idCat:this.idCat,
+                    idAut:this.idAut,
+                    idIdm:this.idIdm,
                 })
                 .then(function(response){
-                    me.listCat();
+                    me.listLib(1, me.criterio, me.buscar);
                     alert('Se guardo correctamente');
                     me.cerrarModal();                
                 })
@@ -356,15 +377,25 @@
                     console.log(error);
                 });
             },
-            actCat(){
+
+            actLib(){
                 let me = this;
-                var url ="/categorias/actualizar";
+                var url ="/libros/actualizar";
                 axios.put(url,{
-                    id: this.idCat,
-                    nombre : this.nombre
+                    id:this.idLib,
+                    nombre : this.nombre,
+                    cantidad:this.cantidad,
+                    ano_publicado:this.ano_publicado,
+                    num_paginas:this.num_paginas,
+                    ubicacion:this.ubicacion,
+                    edicion:this.edicion,
+                    idEdi:this.idEdi,
+                    idCat:this.idCat,
+                    idAut:this.idAut,
+                    idIdm:this.idIdm,
                 })
                 .then(function(response){
-                    me.listCat();
+                    me.listLib(1, me.criterio, me.buscar);
                     alert("Se actualizo correctamente");
                     me.cerrarModal();
                 })
@@ -372,15 +403,17 @@
                     console.log(error);
                 });
             },
-            eliminarCat(data=[]){
+
+            eliminarLib(data=[]){
                 let me = this;
-                var url = "/categorias/eliminar";
+                var url = "/libros/eliminar";
                 axios.post(url,{
                     id:data['id']
                 })
                 .then(function(response){
-                   me.listCat();
                    alert('Se elimino correctamente');
+                   me.listLib(1, me.criterio, me.buscar);
+                   
                 })
                 .catch(function(error){
                     console.log(error);
@@ -391,17 +424,26 @@
             abrirModal(accion, data=[]){
                 switch (accion) {
                     case 'guardar':
-                        this.titulo='Registrar Categoria';
+                        this.titulo='Registrar Libro';
                         this.accion=0;
                         this.limpiar();
                         
                         break;
 
                     case 'editar':
-                        this.titulo='Editar Categoria';
+                        this.titulo='Editar Libro';
                         this.accion=1;
-                        this.idCat= data['id'];
+                        this.idLib= data['id'];
                         this.nombre= data['nombre'];
+                        this.cantidad=data["cantidad"];
+                        this.ano_publicado=data["ano_publicado"];
+                        this.num_paginas=data["num_paginas"];
+                        this.ubicacion=data["ubicacion"];
+                        this.edicion=data["edicion"];
+                        this.idEdit=data["nomEdit"];
+                        this.idCat=data["nomCat"];
+                        this.idAut=data["nomAut"];
+                        this.idIdi=data["nomIdi"];
                     break;
                 
                     default:
@@ -449,7 +491,7 @@
 
         mounted() {
             console.log('Component mounted.')
-            this.listCat(1,this.criterio,this.buscar);
+            this.listLib(1,this.criterio,this.buscar);
             this.getCat();
             this.getEdi();
             this.getIdm();

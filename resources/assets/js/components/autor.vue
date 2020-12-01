@@ -37,12 +37,14 @@
                                 <tr>
 
                                     <th>Nombre</th>
+                                    <th>Pais</th>
                                     <th>Opciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="objeto in arrayDatos" :key="objeto.id">
                                     <td v-text="objeto.nombre"></td>
+                                    <td v-text="objeto.nomPas"></td>
                                     <td>
                                         <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" @click="abrirModal('editar', objeto)">
                                           <i class="icon-pencil"></i>
@@ -209,6 +211,7 @@
                 });
             },
 
+            /////Conbobox (inicio)
                 getPas(){
                 let me = this;
                 var url="/getPas";
@@ -221,15 +224,17 @@
                     console.log(error);
                 });
             },
+            /////Conbobox (fin)
 
             regAut(){
                 let me = this;
                 var url ="/autores/registrar";
                 axios.post(url,{
-                    nombre: this.nombre
+                    nombre: this.nombre,
+                    idPas:this.idPas,
                 })
                 .then(function(response){
-                    me.listAut();
+                    me.listAut(1, me.criterio, me.buscar);
                     alert('Se guardo correctamente');
                     me.cerrarModal();
                     
@@ -243,10 +248,11 @@
 	                var url="/autores/actualizar";
                     axios.put(url,{
 		            id:this.idAut,
-		            nombre :this.nombre
+                    nombre :this.nombre,
+                    idPas:this.idPas,
                 })
                 .then(function(response){
-                    me.listAut();
+                    me.listAut(1, me.criterio, me.buscar);
                     alert('Se actualizo correctamente');
                     me.cerrarModal();
                 })
@@ -261,7 +267,7 @@
                     id:data['id']
                 })
                 .then(function(response){
-                    me.listAut();
+                    me.listAut(1, me.criterio, me.buscar);
                     alert('Se elimino correctamente');
                 })
                 .catch(function(error){
@@ -282,6 +288,7 @@
                 this.accion=1;
                 this.idAut=data['id'];
                 this.nombre=data['nombre'];
+                this.idPas=data["nomPas"];
              break;
                 default:
                 break;

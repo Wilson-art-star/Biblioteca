@@ -54692,6 +54692,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -54742,6 +54744,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
 
+        /////Conbobox (inicio)
         getPas: function getPas() {
             var me = this;
             var url = "/getPas";
@@ -54752,13 +54755,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 console.log(error);
             });
         },
+
+        /////Conbobox (fin)
+
         regAut: function regAut() {
             var me = this;
             var url = "/autores/registrar";
             axios.post(url, {
-                nombre: this.nombre
+                nombre: this.nombre,
+                idPas: this.idPas
             }).then(function (response) {
-                me.listAut();
+                me.listAut(1, me.criterio, me.buscar);
                 alert('Se guardo correctamente');
                 me.cerrarModal();
             }).catch(function (error) {
@@ -54770,9 +54777,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var url = "/autores/actualizar";
             axios.put(url, {
                 id: this.idAut,
-                nombre: this.nombre
+                nombre: this.nombre,
+                idPas: this.idPas
             }).then(function (response) {
-                me.listAut();
+                me.listAut(1, me.criterio, me.buscar);
                 alert('Se actualizo correctamente');
                 me.cerrarModal();
             }).catch(function (error) {
@@ -54787,7 +54795,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.post(url, {
                 id: data['id']
             }).then(function (response) {
-                me.listAut();
+                me.listAut(1, me.criterio, me.buscar);
                 alert('Se elimino correctamente');
             }).catch(function (error) {
                 console.log(error);
@@ -54809,6 +54817,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     this.accion = 1;
                     this.idAut = data['id'];
                     this.nombre = data['nombre'];
+                    this.idPas = data["nomPas"];
                     break;
                 default:
                     break;
@@ -54958,6 +54967,10 @@ var render = function() {
                   return _c("tr", { key: objeto.id }, [
                     _c("td", {
                       domProps: { textContent: _vm._s(objeto.nombre) }
+                    }),
+                    _vm._v(" "),
+                    _c("td", {
+                      domProps: { textContent: _vm._s(objeto.nomPas) }
                     }),
                     _vm._v(" "),
                     _c("td", [
@@ -55377,6 +55390,8 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", [_vm._v("Nombre")]),
         _vm._v(" "),
+        _c("th", [_vm._v("Pais")]),
+        _vm._v(" "),
         _c("th", [_vm._v("Opciones")])
       ])
     ])
@@ -55517,8 +55532,7 @@ exports.push([module.i, "\n.modal-content{\r\n    width: 100% !important;\r\n   
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+//
 //
 //
 //
@@ -55753,27 +55767,41 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
-        var _ref;
-
-        return _ref = {
+        return {
             arrayDatos: [],
+            //arrayLib:[],
             arrayCat: [],
             arrayEdi: [],
             arrayIdm: [],
             arrayAut: [],
             nombre: '',
+            cantidad: '',
+            ano_publicado: '',
+            num_paginas: '',
+            ubicacion: '',
+            edicion: '',
+            idLib: 0,
             idCat: 0,
+            idEdi: 0,
+            idIdm: 0,
+            idAut: 0,
             modal: 0,
             titulo: '',
-            accion: 0
-        }, _defineProperty(_ref, 'idCat', 0), _defineProperty(_ref, 'idEdi', 0), _defineProperty(_ref, 'idIdm', 0), _defineProperty(_ref, 'idAut', 0), _defineProperty(_ref, 'pagination', {
-            total: 0,
-            current_page: 0,
-            per_page: 0,
-            last_page: 0,
-            from: 0,
-            to: 0
-        }), _defineProperty(_ref, 'offset', 3), _defineProperty(_ref, 'buscar', ''), _defineProperty(_ref, 'criterio', 'nombre'), _ref;
+            accion: 0,
+
+            //variables pagination
+            pagination: {
+                total: 0,
+                current_page: 0,
+                per_page: 0,
+                last_page: 0,
+                from: 0,
+                to: 0
+            },
+            offset: 3,
+            buscar: '',
+            criterio: 'nombre'
+        };
     },
 
 
@@ -55783,18 +55811,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             //va a la pagina actual
             me.pagination.current_page = page;
             //envia el metodo para traer los datos
-            me.listCat(page, criterio, buscar);
+            me.listLib(page, criterio, buscar);
         },
-        listCat: function listCat(page, criterio, buscar) {
+        listLib: function listLib(page, criterio, buscar) {
             var me = this;
-            var url = "/libros?page=" + page + '&criterio=' + criterio + '&buscar=' + buscar;
+            var url = "/libros2?page=" + page + '&criterio=' + criterio + '&buscar=' + buscar;
             axios.get(url).then(function (response) {
                 var respuesta = response.data;
-                me.arrayDatos = respuesta.libros.data, me.pagination = respuesta.pagination;
+                me.arrayDatos = respuesta.libro.data, me.pagination = respuesta.pagination;
             }).catch(function (error) {
                 console.log(error);
             });
         },
+
+
+        /////////Comienzo de los ComboBox
         getCat: function getCat() {
             var me = this;
             var url = "/getCat";
@@ -55835,43 +55866,66 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 console.log(error);
             });
         },
-        regCat: function regCat() {
+
+
+        /////////Fin de los ComboBox
+
+
+        regLib: function regLib() {
             var me = this;
-            var url = "/categorias/registrar";
+            var url = "/libros/registrar";
             axios.post(url, {
-                nombre: this.nombre
+                nombre: this.nombre,
+                cantidad: this.cantidad,
+                ano_publicado: this.ano_publicado,
+                num_paginas: this.num_paginas,
+                ubicacion: this.ubicacion,
+                edicion: this.edicion,
+                idEdi: this.idEdi,
+                idCat: this.idCat,
+                idAut: this.idAut,
+                idIdm: this.idIdm
             }).then(function (response) {
-                me.listCat();
+                me.listLib(1, me.criterio, me.buscar);
                 alert('Se guardo correctamente');
                 me.cerrarModal();
             }).catch(function (error) {
                 console.log(error);
             });
         },
-        actCat: function actCat() {
+        actLib: function actLib() {
             var me = this;
-            var url = "/categorias/actualizar";
+            var url = "/libros/actualizar";
             axios.put(url, {
-                id: this.idCat,
-                nombre: this.nombre
+                id: this.idLib,
+                nombre: this.nombre,
+                cantidad: this.cantidad,
+                ano_publicado: this.ano_publicado,
+                num_paginas: this.num_paginas,
+                ubicacion: this.ubicacion,
+                edicion: this.edicion,
+                idEdi: this.idEdi,
+                idCat: this.idCat,
+                idAut: this.idAut,
+                idIdm: this.idIdm
             }).then(function (response) {
-                me.listCat();
+                me.listLib(1, me.criterio, me.buscar);
                 alert("Se actualizo correctamente");
                 me.cerrarModal();
             }).catch(function (error) {
                 console.log(error);
             });
         },
-        eliminarCat: function eliminarCat() {
+        eliminarLib: function eliminarLib() {
             var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
             var me = this;
-            var url = "/categorias/eliminar";
+            var url = "/libros/eliminar";
             axios.post(url, {
                 id: data['id']
             }).then(function (response) {
-                me.listCat();
                 alert('Se elimino correctamente');
+                me.listLib(1, me.criterio, me.buscar);
             }).catch(function (error) {
                 console.log(error);
             });
@@ -55883,17 +55937,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             switch (accion) {
                 case 'guardar':
-                    this.titulo = 'Registrar Categoria';
+                    this.titulo = 'Registrar Libro';
                     this.accion = 0;
                     this.limpiar();
 
                     break;
 
                 case 'editar':
-                    this.titulo = 'Editar Categoria';
+                    this.titulo = 'Editar Libro';
                     this.accion = 1;
-                    this.idCat = data['id'];
+                    this.idLib = data['id'];
                     this.nombre = data['nombre'];
+                    this.cantidad = data["cantidad"];
+                    this.ano_publicado = data["ano_publicado"];
+                    this.num_paginas = data["num_paginas"];
+                    this.ubicacion = data["ubicacion"];
+                    this.edicion = data["edicion"];
+                    this.idEdit = data["nomEdit"];
+                    this.idCat = data["nomCat"];
+                    this.idAut = data["nomAut"];
+                    this.idIdi = data["nomIdi"];
                     break;
 
                 default:
@@ -55939,7 +56002,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     mounted: function mounted() {
         console.log('Component mounted.');
-        this.listCat(1, this.criterio, this.buscar);
+        this.listLib(1, this.criterio, this.buscar);
         this.getCat();
         this.getEdi();
         this.getIdm();
@@ -56021,7 +56084,7 @@ var render = function() {
                     attrs: { type: "submit" },
                     on: {
                       click: function($event) {
-                        return _vm.listCat(1, _vm.criterio, _vm.buscar)
+                        return _vm.listLib(1, _vm.criterio, _vm.buscar)
                       }
                     }
                   },
@@ -56066,19 +56129,19 @@ var render = function() {
                     }),
                     _vm._v(" "),
                     _c("td", {
-                      domProps: { textContent: _vm._s(objeto.id_categoria) }
+                      domProps: { textContent: _vm._s(objeto.nomCat) }
                     }),
                     _vm._v(" "),
                     _c("td", {
-                      domProps: { textContent: _vm._s(objeto.id_idioma) }
+                      domProps: { textContent: _vm._s(objeto.nomIdi) }
                     }),
                     _vm._v(" "),
                     _c("td", {
-                      domProps: { textContent: _vm._s(objeto.id_autor) }
+                      domProps: { textContent: _vm._s(objeto.nomAut) }
                     }),
                     _vm._v(" "),
                     _c("td", {
-                      domProps: { textContent: _vm._s(objeto.id_editorial) }
+                      domProps: { textContent: _vm._s(objeto.nomEdit) }
                     }),
                     _vm._v(" "),
                     _c("td", [
@@ -56103,7 +56166,7 @@ var render = function() {
                           attrs: { type: "button", "data-toggle": "modal" },
                           on: {
                             click: function($event) {
-                              return _vm.eliminarCat(objeto)
+                              return _vm.eliminarLib(objeto)
                             }
                           }
                         },
@@ -56317,24 +56380,24 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.nombre,
-                              expression: "nombre"
+                              value: _vm.cantidad,
+                              expression: "cantidad"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: {
                             type: "text",
-                            id: "nombre",
-                            name: "nombre",
+                            id: "cantidad",
+                            name: "cantidad",
                             placeholder: "Cantidad disponible"
                           },
-                          domProps: { value: _vm.nombre },
+                          domProps: { value: _vm.cantidad },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
                               }
-                              _vm.nombre = $event.target.value
+                              _vm.cantidad = $event.target.value
                             }
                           }
                         }),
@@ -56359,24 +56422,24 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.nombre,
-                              expression: "nombre"
+                              value: _vm.ano_publicado,
+                              expression: "ano_publicado"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: {
                             type: "text",
-                            id: "nombre",
-                            name: "nombre",
+                            id: "ano_publicado",
+                            name: "ano_publicado",
                             placeholder: "Año publicación"
                           },
-                          domProps: { value: _vm.nombre },
+                          domProps: { value: _vm.ano_publicado },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
                               }
-                              _vm.nombre = $event.target.value
+                              _vm.ano_publicado = $event.target.value
                             }
                           }
                         }),
@@ -56401,24 +56464,24 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.nombre,
-                              expression: "nombre"
+                              value: _vm.num_paginas,
+                              expression: "num_paginas"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: {
                             type: "text",
-                            id: "nombre",
-                            name: "nombre",
+                            id: "num_paginas",
+                            name: "num_paginas",
                             placeholder: "Numero de paginas"
                           },
-                          domProps: { value: _vm.nombre },
+                          domProps: { value: _vm.num_paginas },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
                               }
-                              _vm.nombre = $event.target.value
+                              _vm.num_paginas = $event.target.value
                             }
                           }
                         }),
@@ -56443,24 +56506,24 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.nombre,
-                              expression: "nombre"
+                              value: _vm.ubicacion,
+                              expression: "ubicacion"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: {
                             type: "text",
-                            id: "nombre",
-                            name: "nombre",
+                            id: "ubicacion",
+                            name: "ubicacion",
                             placeholder: "Ubicación"
                           },
-                          domProps: { value: _vm.nombre },
+                          domProps: { value: _vm.ubicacion },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
                               }
-                              _vm.nombre = $event.target.value
+                              _vm.ubicacion = $event.target.value
                             }
                           }
                         }),
@@ -56485,24 +56548,24 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.nombre,
-                              expression: "nombre"
+                              value: _vm.edicion,
+                              expression: "edicion"
                             }
                           ],
                           staticClass: "form-control",
                           attrs: {
                             type: "text",
-                            id: "nombre",
-                            name: "nombre",
+                            id: "edicion",
+                            name: "edicion",
                             placeholder: "Edición"
                           },
-                          domProps: { value: _vm.nombre },
+                          domProps: { value: _vm.edicion },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
                               }
-                              _vm.nombre = $event.target.value
+                              _vm.edicion = $event.target.value
                             }
                           }
                         }),
@@ -56744,7 +56807,7 @@ var render = function() {
                     ],
                     staticClass: "btn btn-primary",
                     attrs: { type: "button" },
-                    on: { click: _vm.regCat }
+                    on: { click: _vm.regLib }
                   },
                   [_vm._v("Guardar")]
                 ),
@@ -56762,7 +56825,7 @@ var render = function() {
                     ],
                     staticClass: "btn btn-primary",
                     attrs: { type: "button" },
-                    on: { click: _vm.actCat }
+                    on: { click: _vm.actLib }
                   },
                   [_vm._v("Actualizar")]
                 )
@@ -56814,7 +56877,7 @@ var render = function() {
                   {
                     staticClass: "btn btn-danger",
                     attrs: { type: "button" },
-                    on: { click: _vm.eliminarCat }
+                    on: { click: _vm.eliminarLib }
                   },
                   [_vm._v("Eliminar")]
                 )
@@ -56889,7 +56952,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "modal-header" }, [
-      _c("h4", { staticClass: "modal-title" }, [_vm._v("Eliminar Categoría")]),
+      _c("h4", { staticClass: "modal-title" }, [_vm._v("Eliminar Libro")]),
       _vm._v(" "),
       _c(
         "button",
@@ -56910,7 +56973,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "modal-body" }, [
-      _c("p", [_vm._v("Estas seguro de eliminar la categoría?")])
+      _c("p", [_vm._v("Estas seguro de eliminar el libro?")])
     ])
   }
 ]
@@ -57302,6 +57365,8 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_toasted___default.a);
             this.arrayLibros.splice(0, 1);
         },
 
+        //maestro detalle
+
         regSolicitud: function regSolicitud() {
             var me = this;
             var url = "/solicitud/registrar";
@@ -57329,7 +57394,10 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_toasted___default.a);
         //mensaje en toast
         mensajeToast: function mensajeToast() {
             var toast = this.$toasted.show('Libro Agregado', {
-                theme: "bubble"
+                theme: "bubble",
+                position: "top-right",
+                duration: 3000,
+                type: succes
 
             });
         },
@@ -58231,6 +58299,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 //import { required, minLength, between  } from 'vuelidate/lib/validators'
 //import { validationMixin } from 'vuilidate'
@@ -58271,9 +58352,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             //va a la pagina actual
             me.pagination.current_page = page;
             //envia el metodo para traer los datos
-            me.listCat(page, criterio, buscar);
+            me.listUse(page, criterio, buscar);
         },
-        listCat: function listCat(page, criterio, buscar) {
+        listUse: function listUse(page, criterio, buscar) {
             var me = this;
             var url = "/user?page=" + page + '&criterio=' + criterio + '&buscar=' + buscar;
             axios.get(url).then(function (response) {
@@ -58283,34 +58364,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 console.log(error);
             });
         },
-        regCat: function regCat() {
+        regUse: function regUse() {
             var me = this;
             var url = "/user/registrar";
             axios.post(url, {
                 nombre: this.nombre
             }).then(function (response) {
-                me.listCat();
+                me.listUse();
                 alert('Se guardo correctamente');
                 me.cerrarModal();
             }).catch(function (error) {
                 console.log(error);
             });
         },
-        actCat: function actCat() {
+        actUse: function actUse() {
             var me = this;
             var url = "/user/actualizar";
             axios.put(url, {
                 id: this.idCat,
                 nombre: this.nombre
             }).then(function (response) {
-                me.listCat();
+                me.listUse();
                 alert("Se actualizo correctamente");
                 me.cerrarModal();
             }).catch(function (error) {
                 console.log(error);
             });
         },
-        eliminarCat: function eliminarCat() {
+        eliminarUse: function eliminarUse() {
             var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 
             var me = this;
@@ -58318,7 +58399,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             axios.post(url, {
                 id: data['id']
             }).then(function (response) {
-                me.listCat();
+                me.listUUse();
                 alert('Se elimino correctamente');
             }).catch(function (error) {
                 console.log(error);
@@ -58387,7 +58468,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     mounted: function mounted() {
         console.log('Component mounted.');
-        this.listCat(1, this.criterio, this.buscar);
+        this.listUse(1, this.criterio, this.buscar);
     }
 });
 
@@ -58406,7 +58487,7 @@ var render = function() {
       _c("div", { staticClass: "card" }, [
         _c("div", { staticClass: "card-header" }, [
           _c("i", { staticClass: "fa fa-user" }),
-          _vm._v(" Users \n                    "),
+          _vm._v(" Usuarios \n                    "),
           _c(
             "button",
             {
@@ -58465,7 +58546,7 @@ var render = function() {
                     attrs: { type: "submit" },
                     on: {
                       click: function($event) {
-                        return _vm.listCat(1, _vm.criterio, _vm.buscar)
+                        return _vm.listUse(1, _vm.criterio, _vm.buscar)
                       }
                     }
                   },
@@ -58487,6 +58568,10 @@ var render = function() {
                   return _c("tr", { key: objeto.id }, [
                     _c("td", {
                       domProps: { textContent: _vm._s(objeto.name) }
+                    }),
+                    _vm._v(" "),
+                    _c("td", {
+                      domProps: { textContent: _vm._s(objeto.email) }
                     }),
                     _vm._v(" "),
                     _c("td", [
@@ -58511,7 +58596,7 @@ var render = function() {
                           attrs: { type: "button", "data-toggle": "modal" },
                           on: {
                             click: function($event) {
-                              return _vm.eliminarCat(objeto)
+                              return _vm.eliminarUse(objeto)
                             }
                           }
                         },
@@ -58708,6 +58793,90 @@ var render = function() {
                         _c("span", { staticClass: "help-block" }, [
                           _vm._v("(*) Ingrese el nombre del Usuario")
                         ])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-md-3 form-control-label",
+                          attrs: { for: "text-input" }
+                        },
+                        [_vm._v("E-mail")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-9" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.nombre,
+                              expression: "nombre"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            id: "nombre",
+                            name: "nombre",
+                            placeholder: "correo del usuario"
+                          },
+                          domProps: { value: _vm.nombre },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.nombre = $event.target.value
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "help-block" }, [
+                          _vm._v("(*) Ingrese el E-mail del Usuario")
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-md-3 form-control-label",
+                          attrs: { for: "text-input" }
+                        },
+                        [_vm._v("Password")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-md-9" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.nombre,
+                              expression: "nombre"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            id: "nombre",
+                            name: "nombre",
+                            placeholder: "contraseña del usuario"
+                          },
+                          domProps: { value: _vm.nombre },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.nombre = $event.target.value
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "help-block" }, [
+                          _vm._v("(*) Ingrese la contraseña del Usuario")
+                        ])
                       ])
                     ])
                   ]
@@ -58738,7 +58907,7 @@ var render = function() {
                     ],
                     staticClass: "btn btn-primary",
                     attrs: { type: "button" },
-                    on: { click: _vm.regCat }
+                    on: { click: _vm.regUse }
                   },
                   [_vm._v("Guardar")]
                 ),
@@ -58756,7 +58925,7 @@ var render = function() {
                     ],
                     staticClass: "btn btn-primary",
                     attrs: { type: "button" },
-                    on: { click: _vm.actCat }
+                    on: { click: _vm.actUse }
                   },
                   [_vm._v("Actualizar")]
                 )
@@ -58808,7 +58977,7 @@ var render = function() {
                   {
                     staticClass: "btn btn-danger",
                     attrs: { type: "button" },
-                    on: { click: _vm.eliminarCat }
+                    on: { click: _vm.eliminarUse }
                   },
                   [_vm._v("Eliminar")]
                 )
@@ -58855,6 +59024,8 @@ var staticRenderFns = [
     return _c("thead", [
       _c("tr", [
         _c("th", [_vm._v("Nombre")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("E-mail")]),
         _vm._v(" "),
         _c("th", [_vm._v("Opciones")])
       ])
